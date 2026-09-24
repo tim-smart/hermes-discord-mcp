@@ -71,8 +71,7 @@ const BearerAuth = HttpRouter.middleware(
         timingSafeEqual(digest(request.headers["authorization"] ?? ""), expected)
           ? httpEffect
           : Effect.succeed(HttpServerResponse.empty({ status: 401 })))
-  }),
-  { global: true }
+  })
 )
 
 const McpRoutes = McpServer.toolkit(HermesToolkit).pipe(
@@ -83,10 +82,13 @@ const McpRoutes = McpServer.toolkit(HermesToolkit).pipe(
     version: "1.0.0",
     path: "/mcp",
     protocols: [McpProtocol.v2026_07_28, McpProtocol.v2025_11_25, McpProtocol.v2025_06_18]
-  }))
+  })),
+  Layer.provide(BearerAuth.layer)
 )
 
-const Main = HttpRouter.serve(Layer.mergeAll(McpRoutes, BearerAuth)).pipe(
+const HealthRoute = HttpRouter.add("GET", "/health", HttpServerResponse.empty({ status: 204 }))
+
+const Main = HttpRouter.serve(Layer.mergeAll(McpRoutes, HealthRoute)).pipe(
   Layer.provide(NodeHttpServer.layerConfig(createServer, {
     port: Config.Port("PORT").pipe(Config.withDefault(3000))
   }))
