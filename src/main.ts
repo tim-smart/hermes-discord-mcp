@@ -1,9 +1,9 @@
 /** @effect-diagnostics nodeBuiltinImport:off */
-import { NodeHttpClient, NodeHttpServer, NodeRuntime } from "@effect/platform-node"
+import { NodeHttpServer, NodeRuntime } from "@effect/platform-node"
 import { DiscordConfig, DiscordREST, DiscordRESTLive, MemoryRateLimitStoreLive } from "dfx"
 import { Config, Effect, Layer, Redacted, Schema } from "effect"
 import { McpProtocol, McpServer, Tool, Toolkit } from "effect/unstable/ai"
-import { HttpRouter, HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
+import { FetchHttpClient, HttpRouter, HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { createHash, timingSafeEqual } from "node:crypto"
 import { createServer } from "node:http"
 
@@ -56,7 +56,7 @@ const HermesToolkitLayer = HermesToolkit.toLayer(Effect.gen(function*() {
 const DiscordLayer = DiscordRESTLive.pipe(
   Layer.provide([
     DiscordConfig.layer({ token: Redacted.make("unused") }),
-    NodeHttpClient.layerUndici,
+    FetchHttpClient.layer,
     MemoryRateLimitStoreLive
   ])
 )

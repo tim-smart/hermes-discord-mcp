@@ -1,5 +1,6 @@
 {
   "$schema": "./node_modules/@effect/tsgo/schema.json",
+  "include": ["src"],
   "compilerOptions": {
     // File Layout
     "rootDir": "./src",
