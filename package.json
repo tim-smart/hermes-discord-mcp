@@ -1,0 +1,22 @@
+{
+  "name": "hermes-discord-mcp",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.21.0",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "dependencies": {
+    "@effect/platform-node": "4.0.0-rc.117",
+    "effect": "4.0.0-rc.117"
+  }
+}
